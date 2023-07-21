@@ -1,9 +1,45 @@
+import { useSelector } from "react-redux";
+import { Navigate, useParams } from "react-router-dom";
+import { getPostById } from "../../../redux/postsRedux";
+import { Button } from "react-bootstrap";
+import React from "react";
+import DeletePostModal from "../../features/DeletePostModal/DeletePostModal";
+
 const SinglePost = () => {
 
+  const { id } = useParams();
+  const post = useSelector(state => getPostById(state, id));
+  const [modalShow, setModalShow] = React.useState(false);
+
+  if (!post) return <Navigate to="/" />;
+
   return (
-    <div>
-      <h2>SinglePost</h2>
-    </div>
+    <>
+      <div className="post_wrapper mx-auto" style={{ width: '50%' }}>
+        <div className="post_wrapper-header d-flex justify-content-between">
+          <h2>{post.title}</h2>
+          <div className="post_wrapper-button-container">
+            <Button variant="outline-info" className="m-1">Edit</Button>
+            <Button variant="outline-danger" className="m-1" onClick={() => setModalShow(true)} >Delete</Button>
+          </div>
+        </div>
+        <div className="post_main-info">
+          <p>
+            <strong>Author:</strong> {post.author}
+            <br />
+            <strong>Published:</strong> {post.publishedDate}
+          </p>
+        </div>
+        <div className="post_main-content">
+          <p>{post.content}</p>
+        </div>
+      </div>
+      <DeletePostModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        postId={id}
+      />
+    </>
   )
 }
 
