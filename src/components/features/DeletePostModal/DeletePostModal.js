@@ -30,7 +30,7 @@ function DeletePostModal(props) {
       <Modal.Footer>
         <Button variant="secondary" onClick={props.onHide} >Cancel</Button>
         <Button variant="danger" onClick={() => {
-          dispatch(removePost(props.postId));
+          dispatch(removePost(props.postid));
           props.onHide();
         }} >Remove</Button>
       </Modal.Footer>
