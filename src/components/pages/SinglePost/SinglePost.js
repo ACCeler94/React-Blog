@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import { getPostById } from "../../../redux/postsRedux";
 import { Button } from "react-bootstrap";
 import React from "react";
@@ -19,7 +19,7 @@ const SinglePost = () => {
         <div className="post_wrapper-header d-flex justify-content-between">
           <h2>{post.title}</h2>
           <div className="post_wrapper-button-container">
-            <Button variant="outline-info" className="m-1">Edit</Button>
+            <Link to={`/post/edit/${id}`}><Button variant="outline-info" className="m-1">Edit</Button></Link>
             <Button variant="outline-danger" className="m-1" onClick={() => setModalShow(true)} >Delete</Button>
           </div>
         </div>

@@ -1,4 +1,3 @@
-import { nanoid } from "nanoid";
 import { useState } from "react";
 import PropTypes from 'prop-types';
 
@@ -10,10 +9,11 @@ const PostForm = (props) => {
   const [publishedDate, setPublishedDate] = useState(props.publishedDate || '');
   const [shortDescription, setShortDescription] = useState(props.shortDescription || '');
   const [content, setContent] = useState(props.content || '');
+  const id = props.id
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.action({ id: nanoid(), title, author, publishedDate, shortDescription, content })
+    props.action({ title, author, publishedDate, shortDescription, content, id })
   }
 
 
@@ -28,7 +28,7 @@ const PostForm = (props) => {
           <input type="name" id="author" name="author" placeholder="Enter author" className="form-control" required onChange={e => setAuthor(e.target.value)} value={author} />
           <br />
           <label for="published-date" className="mb-1" >Published</label><br />
-          <input type="date" id="published-date" name="published-date" placeholder="dd-mm-yyyy" className="form-control" required onChange={e => setPublishedDate(e.target.value)} value={publishedDate} />
+          <input type="text" id="published-date" name="published-date" placeholder="dd-mm-yyyy" className="form-control" required onChange={e => setPublishedDate(e.target.value)} value={publishedDate} />
           <br />
         </div>
         <label for="description" className="mb-1" >Short description</label><br />
@@ -50,7 +50,8 @@ PostForm.propTypes = {
   publishedDate: PropTypes.string,
   shortDescription: PropTypes.string,
   content: PropTypes.string,
-  actionText: PropTypes.string
+  actionText: PropTypes.string,
+  id: PropTypes.string
 }
 
 export default PostForm;
