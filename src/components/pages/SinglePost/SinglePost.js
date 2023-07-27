@@ -31,7 +31,7 @@ const SinglePost = () => {
           </p>
         </div>
         <div className="post_main-content">
-          <p>{post.content}</p>
+          <p dangerouslySetInnerHTML={{ __html: post.content }} />
         </div>
       </div>
       <DeletePostModal

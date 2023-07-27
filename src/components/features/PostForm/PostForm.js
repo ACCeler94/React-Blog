@@ -1,5 +1,8 @@
 import { useState } from "react";
 import PropTypes from 'prop-types';
+import { nanoid } from "nanoid";
+import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.snow.css';
 
 const PostForm = (props) => {
 
@@ -9,7 +12,7 @@ const PostForm = (props) => {
   const [publishedDate, setPublishedDate] = useState(props.publishedDate || '');
   const [shortDescription, setShortDescription] = useState(props.shortDescription || '');
   const [content, setContent] = useState(props.content || '');
-  const id = props.id
+  const id = props.id || nanoid();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -35,7 +38,7 @@ const PostForm = (props) => {
         <textarea id="description" name="description" placeholder="Enter short description" className="form-control" required onChange={e => setShortDescription(e.target.value)} value={shortDescription}></textarea>
         <br />
         <label for="content" className="mb-1" >Main content</label><br />
-        <textarea id="content" name="content" placeholder="Enter the main content of the post" className="form-control" style={{ height: "200px" }} required onChange={e => setContent(e.target.value)} value={content}></textarea>
+        <ReactQuill id="content" name="content" placeholder="Enter the main content of the post" required onChange={setContent} value={content} />
         <br />
         <button type="submit" className="btn btn-primary">{props.actionText}</button>
       </form>
