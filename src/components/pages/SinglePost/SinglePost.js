@@ -4,12 +4,14 @@ import { getPostById } from "../../../redux/postsRedux";
 import { Button } from "react-bootstrap";
 import React from "react";
 import DeletePostModal from "../../features/DeletePostModal/DeletePostModal";
+import { dateToStr } from "../../../utils/dateToStr";
 
 const SinglePost = () => {
 
   const { id } = useParams();
   const post = useSelector(state => getPostById(state, id));
   const [modalShow, setModalShow] = React.useState(false);
+  const formattedDate = dateToStr(post.publishedDate)
 
   if (!post) return <Navigate to="/" />;
 
@@ -27,7 +29,7 @@ const SinglePost = () => {
           <p>
             <strong>Author:</strong> {post.author}
             <br />
-            <strong>Published:</strong> {post.publishedDate}
+            <strong>Published:</strong> {formattedDate}
           </p>
         </div>
         <div className="post_main-content">

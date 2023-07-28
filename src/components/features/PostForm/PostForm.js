@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 import { nanoid } from "nanoid";
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const PostForm = (props) => {
 
 
   const [title, setTitle] = useState(props.title || '');
   const [author, setAuthor] = useState(props.author || '');
-  const [publishedDate, setPublishedDate] = useState(props.publishedDate || '');
+  const [publishedDate, setPublishedDate] = useState(props.publishedDate || new Date());
   const [shortDescription, setShortDescription] = useState(props.shortDescription || '');
   const [content, setContent] = useState(props.content || '');
   const id = props.id || nanoid();
@@ -31,7 +33,7 @@ const PostForm = (props) => {
           <input type="name" id="author" name="author" placeholder="Enter author" className="form-control" required onChange={e => setAuthor(e.target.value)} value={author} />
           <br />
           <label for="published-date" className="mb-1" >Published</label><br />
-          <input type="text" id="published-date" name="published-date" placeholder="dd-mm-yyyy" className="form-control" required onChange={e => setPublishedDate(e.target.value)} value={publishedDate} />
+          <DatePicker id="published-date" name="published-date" required onChange={date => setPublishedDate(date)} selected={publishedDate} />
           <br />
         </div>
         <label for="description" className="mb-1" >Short description</label><br />

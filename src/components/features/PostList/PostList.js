@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { getAllPosts } from "../../../redux/postsRedux";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { dateToStr } from "../../../utils/dateToStr";
 
 const PostList = () => {
   const posts = useSelector(getAllPosts);
@@ -16,7 +17,7 @@ const PostList = () => {
               <p>
                 <strong>Author:</strong> {post.author}
                 <br />
-                <strong>Published:</strong> {post.publishedDate}
+                <strong>Published:</strong> {dateToStr(post.publishedDate)}
               </p>
               <p>{post.shortDescription}</p>
               <Link to={`/post/${post.id}`} ><Button className="primary">Read More</Button></Link>
