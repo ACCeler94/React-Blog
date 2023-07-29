@@ -11,9 +11,11 @@ const SinglePost = () => {
   const { id } = useParams();
   const post = useSelector(state => getPostById(state, id));
   const [modalShow, setModalShow] = React.useState(false);
-  const formattedDate = dateToStr(post.publishedDate)
+
 
   if (!post) return <Navigate to="/" />;
+
+  const formattedDate = dateToStr(post.publishedDate)
 
   return (
     <>

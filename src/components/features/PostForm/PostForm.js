@@ -5,6 +5,7 @@ import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useForm } from "react-hook-form";
 
 const PostForm = (props) => {
 
@@ -14,33 +15,57 @@ const PostForm = (props) => {
   const [publishedDate, setPublishedDate] = useState(props.publishedDate || new Date());
   const [shortDescription, setShortDescription] = useState(props.shortDescription || '');
   const [content, setContent] = useState(props.content || '');
-  const id = props.id || nanoid();
+  const [contentError, setContentError] = useState(false);
+  const [dateError, setDateError] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    props.action({ title, author, publishedDate, shortDescription, content, id })
-  }
+  const id = props.id || nanoid();
+  const { register, handleSubmit: validate, formState: { errors } } = useForm();
+
+  const handleSubmit = () => {
+
+    // only fields that were not checked by validate() are checked here
+    setContentError(!content)
+    setDateError(!publishedDate)
+    if (content && publishedDate) {
+      props.action({ title, author, publishedDate, shortDescription, content, id });
+    }
+  };
 
 
   return (
     <div className="post_add">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={validate(handleSubmit)}>
         <div className="form-group short-inputs col-lg-6">
           <label for="title" className="mb-1"  >Title</label><br />
-          <input type="text" id="title" name="title" placeholder="Enter title" className="form-control" required onChange={e => setTitle(e.target.value)} value={title} />
-          <br />
+          <input {...register("title", { required: true, minLength: 3 })}
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+            type="text" placeholder="Enter title"
+            className="form-control"
+          />
+          {errors.title && <small className="d-block form-text text-danger mt-2">Title is too short (min is 3)</small>}
+
           <label for="author" className="mb-1" >Author</label><br />
-          <input type="name" id="author" name="author" placeholder="Enter author" className="form-control" required onChange={e => setAuthor(e.target.value)} value={author} />
+          <input {...register("author", { required: true, minLength: 3 })}
+            value={author}
+            onChange={e => setAuthor(e.target.value)}
+            type="text" placeholder="Enter author"
+            className="form-control" />
+          {errors.author && <small className="d-block form-text text-danger mt-2">Author is too short (min is 3)</small>}
           <br />
           <label for="published-date" className="mb-1" >Published</label><br />
           <DatePicker id="published-date" name="published-date" required onChange={date => setPublishedDate(date)} selected={publishedDate} />
+          {dateError && <small className="d-block form-text text-danger mt-2">Date is required</small>}
           <br />
         </div>
         <label for="description" className="mb-1" >Short description</label><br />
-        <textarea id="description" name="description" placeholder="Enter short description" className="form-control" required onChange={e => setShortDescription(e.target.value)} value={shortDescription}></textarea>
+        <textarea {...register("description", { required: true, minLength: 20 })}
+          id="description" name="description" placeholder="Enter short description" className="form-control" required onChange={e => setShortDescription(e.target.value)} value={shortDescription}></textarea>
+        {errors.description && <small className="d-block form-text text-danger mt-2">Description is too short (min is 20)</small>}
         <br />
         <label for="content" className="mb-1" >Main content</label><br />
         <ReactQuill id="content" name="content" placeholder="Enter the main content of the post" required onChange={setContent} value={content} />
+        {contentError && <small className="d-block form-text text-danger mt-2">Content can't be empty</small>}
         <br />
         <button type="submit" className="btn btn-primary">{props.actionText}</button>
       </form>
