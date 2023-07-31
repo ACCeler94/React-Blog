@@ -18,6 +18,8 @@ const PostList = () => {
                 <strong>Author:</strong> {post.author}
                 <br />
                 <strong>Published:</strong> {dateToStr(post.publishedDate)}
+                <br />
+                <strong>Category: </strong>{post.category}
               </p>
               <p>{post.shortDescription}</p>
               <Link to={`/post/${post.id}`} ><Button className="primary">Read More</Button></Link>

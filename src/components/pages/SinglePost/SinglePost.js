@@ -32,6 +32,8 @@ const SinglePost = () => {
             <strong>Author:</strong> {post.author}
             <br />
             <strong>Published:</strong> {formattedDate}
+            <br />
+            <strong>Category: </strong> {post.category}
           </p>
         </div>
         <div className="post_main-content">

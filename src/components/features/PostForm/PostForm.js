@@ -6,6 +6,8 @@ import 'react-quill/dist/quill.snow.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { getAllCategories } from "../../../redux/categoriesRedux";
 
 const PostForm = (props) => {
 
@@ -15,8 +17,13 @@ const PostForm = (props) => {
   const [publishedDate, setPublishedDate] = useState(props.publishedDate || new Date());
   const [shortDescription, setShortDescription] = useState(props.shortDescription || '');
   const [content, setContent] = useState(props.content || '');
+  const [selectedCategory, setSelectedCategory] = useState(props.category || '')
   const [contentError, setContentError] = useState(false);
   const [dateError, setDateError] = useState(false);
+
+  const categories = useSelector(getAllCategories);
+
+  console.log(categories)
 
   const id = props.id || nanoid();
   const { register, handleSubmit: validate, formState: { errors } } = useForm();
@@ -57,6 +64,11 @@ const PostForm = (props) => {
           <DatePicker id="published-date" name="published-date" required onChange={date => setPublishedDate(date)} selected={publishedDate} />
           {dateError && <small className="d-block form-text text-danger mt-2">Date is required</small>}
           <br />
+          <label for="category" className="mb-1">Category</label><br />
+          <select name="category" id="category" required onChange={e => setSelectedCategory(e.target.value)}>
+            <option value={''}>Select category...</option>
+            {categories.map(category => <option value={category.name} selected={category.name === selectedCategory ? true : false} >{category.name}</option>)}
+          </select>
         </div>
         <label for="description" className="mb-1" >Short description</label><br />
         <textarea {...register("description", { required: true, minLength: 20 })}
@@ -77,11 +89,11 @@ PostForm.propTypes = {
   action: PropTypes.func,
   title: PropTypes.string,
   author: PropTypes.string,
-  publishedDate: PropTypes.string,
+  publishedDate: PropTypes.object,
   shortDescription: PropTypes.string,
   content: PropTypes.string,
   actionText: PropTypes.string,
-  id: PropTypes.string
+  id: PropTypes.string,
 }
 
 export default PostForm;
