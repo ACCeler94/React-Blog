@@ -16,7 +16,7 @@ const CategoryList = () => {
         <div className="categories-list d-flex flex-column mt-4">
           {categories.map(category => {
             return (
-              <div className="category-box mt-1 p-3 border border-secondary-subtle rounded">
+              <div key={category.name} className="category-box mt-1 p-3 border border-secondary-subtle rounded">
                 <Link to={`/categories/${category.name}`}>{category.name}</Link>
               </div>
             )
