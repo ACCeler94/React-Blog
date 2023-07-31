@@ -23,8 +23,6 @@ const PostForm = (props) => {
 
   const categories = useSelector(getAllCategories);
 
-  console.log(categories)
-
   const id = props.id || nanoid();
   const { register, handleSubmit: validate, formState: { errors } } = useForm();
 
@@ -64,9 +62,9 @@ const PostForm = (props) => {
           {dateError && <small className="d-block form-text text-danger mt-2">Date is required</small>}
           <br />
           <label for="category" className="mb-1">Category</label><br />
-          <select name="category" id="category" required onChange={e => setSelectedCategory(e.target.value)}>
+          <select name="category" id="category" required onChange={e => setSelectedCategory(e.target.value)} value={selectedCategory}>
             <option value={''}>Select category...</option>
-            {categories.map(category => <option value={category.name} selected={category.name === selectedCategory ? true : false} >{category.name}</option>)}
+            {categories.map(category => <option value={category.name} key={category.name}  >{category.name}</option>)}
           </select>
           <br />
           {!selectedCategory ? <small className="d-block form-text text-danger mt-2">Category must be selected</small> : ''}
@@ -95,6 +93,7 @@ PostForm.propTypes = {
   content: PropTypes.string,
   actionText: PropTypes.string,
   id: PropTypes.string,
+  category: PropTypes.string
 }
 
 export default PostForm;
