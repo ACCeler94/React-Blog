@@ -1,11 +1,9 @@
-import { useSelector } from "react-redux";
-import { getAllPosts } from "../../../redux/postsRedux";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { dateToStr } from "../../../utils/dateToStr";
 
-const PostList = () => {
-  const posts = useSelector(getAllPosts);
+const PostList = ({ posts }) => {
+
 
   return (
     <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 gx-4 gy-2 mt-3">

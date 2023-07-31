@@ -3,7 +3,7 @@
 //selectors
 export const getAllPosts = ({ posts }) => posts;
 export const getPostById = ({ posts }, id) => posts.find(post => post.id === id);
-
+export const getPostsByCategory = ({ posts }, category) => posts.filter(post => post.category === category);
 
 
 const createActionName = actionName => `app/posts/${actionName}`;

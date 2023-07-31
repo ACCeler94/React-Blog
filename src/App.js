@@ -9,6 +9,7 @@ import Header from "./components/views/Header/Header";
 import Footer from "./components/views/Footer/Footer";
 import Home from "./components/pages/Home/Home";
 import CategoryList from "./components/pages/CategoriesList/CategoriesList";
+import PostsByCategory from "./components/pages/PostsByCategory/PostsByCategory";
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/categories" element={<CategoryList />} />
+        <Route path="/categories/:category" element={<PostsByCategory />} />
       </Routes>
       <Footer />
     </Container>

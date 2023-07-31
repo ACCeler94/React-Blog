@@ -29,12 +29,11 @@ const PostForm = (props) => {
   const { register, handleSubmit: validate, formState: { errors } } = useForm();
 
   const handleSubmit = () => {
-
     // only fields that were not checked by validate() are checked here
     setContentError(!content)
     setDateError(!publishedDate)
-    if (content && publishedDate) {
-      props.action({ title, author, publishedDate, shortDescription, content, id });
+    if (content && publishedDate && selectedCategory) {
+      props.action({ title, author, publishedDate, shortDescription, content, id, category: selectedCategory });
     }
   };
 
@@ -69,6 +68,8 @@ const PostForm = (props) => {
             <option value={''}>Select category...</option>
             {categories.map(category => <option value={category.name} selected={category.name === selectedCategory ? true : false} >{category.name}</option>)}
           </select>
+          <br />
+          {!selectedCategory ? <small className="d-block form-text text-danger mt-2">Category must be selected</small> : ''}
         </div>
         <label for="description" className="mb-1" >Short description</label><br />
         <textarea {...register("description", { required: true, minLength: 20 })}
